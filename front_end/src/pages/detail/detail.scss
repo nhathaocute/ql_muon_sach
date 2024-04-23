@@ -1,0 +1,197 @@
+.box-product {
+  text-align: center;
+}
+.product-container {
+  position: relative;
+  max-width: 300px;
+  margin: 20px auto;
+  text-align: center;
+  overflow: hidden;
+  display: inline-block;
+}
+.name-product-suggest {
+  margin-bottom: 0;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  transition: transform 0.5s ease; /* Chỉnh thời gian hiệu ứng zoom ra thành 0.5s */
+}
+.product-container:hover img {
+  transform: scale(1.2); /* Kích thước tăng lên 20% khi hover vào */
+  filter: brightness(50%); /* Đen dần hình ảnh khi hover vào */
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(
+    -50%,
+    100%
+  ); /* Di chuyển nút button xuống dưới hình ảnh */
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s; /* Chỉnh thời gian hiệu ứng opacity và transform thành 0.5s */
+  animation: move-down 0.5s forwards; /* Sử dụng animation để di chuyển nút button lên giữa hình */
+}
+
+.product-container:hover .overlay {
+  animation: move-up 0.5s forwards; /* Sử dụng animation để di chuyển nút button lên trên hình */
+  opacity: 1;
+}
+
+@keyframes move-up {
+  from {
+    bottom: 0;
+  }
+  to {
+    bottom: 30%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes move-down {
+  from {
+    bottom: 30%;
+    transform: translate(-50%, -50%);
+  }
+  to {
+    bottom: 0;
+  }
+}
+.detail-book {
+  background-color: transparent;
+  color: #0e77e7;
+  font-size: 20px;
+  padding: 0;
+}
+.detail-book:hover {
+  color: #fff;
+}
+.name-product-suggest {
+  font-size: 15px;
+  font-weight: 700;
+}
+.img-product {
+  display: flex;
+  width: 100%;
+}
+//
+.info_product,
+.form_product_want {
+  border-radius: 20px;
+  padding: 40px;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+  margin-top: 20px;
+}
+.title-legend-detail {
+  background: #ecf0f3;
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+  font-weight: 500;
+}
+.info-name {
+  color: #db2626;
+  font-weight: 700;
+}
+.title-form-muon {
+  padding-bottom: 20px;
+}
+.ngay {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding-bottom: 5px;
+}
+.input-ngay {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 5px;
+  align-items: end;
+}
+/* CSS */
+.button-muon {
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(
+    100% 100% at 100% 0,
+    #5adaff 0,
+    #14974f 100%
+  );
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  height: 48px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow, transform;
+  font-size: 15px;
+}
+
+.button-muon:focus {
+  box-shadow: #14974f 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #14974f 0 -3px 0 inset;
+}
+
+.button-muon:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #14974f 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button-muon:active {
+  box-shadow: #14974f 0 3px 7px inset;
+  transform: translateY(2px);
+}
+
+input[type="date"] {
+  background-image: radial-gradient(
+    100% 100% at 100% 0,
+    #5adaff 0,
+    #5468ff 100%
+  );
+  padding: 5px;
+  color: #ffffff;
+  font-size: 13px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+
+  transition: box-shadow 0.15s, transform 0.15s;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+  &:hover {
+    box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+      rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+    transform: translateY(-2px);
+  }
+  &:focus {
+    box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+      rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  }
+}
+::-webkit-calendar-picker-indicator {
+  background-color: #ffffff;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+  color: #5468ff;
+}

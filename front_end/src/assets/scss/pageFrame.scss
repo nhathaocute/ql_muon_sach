@@ -1,0 +1,213 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
+p {
+  margin: 0;
+}
+main {
+  min-height: calc(100vh - 300px);
+}
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header,
+footer {
+  background: rgb(246, 246, 246);
+  background: radial-gradient(
+    circle,
+    rgba(246, 246, 246, 1) 0%,
+    rgba(16, 112, 8, 1) 100%
+  );
+  font-family: "Playfair Display", serif;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  ul {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    position: relative;
+    li {
+      position: relative;
+      color: #31523e;
+      font-size: 18px;
+      font-weight: 600;
+      .text-nav {
+        position: relative;
+        z-index: 1;
+        cursor: pointer;
+      }
+      .text-nav::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: #31523e;
+        bottom: 0;
+        left: 0;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+      .text-nav:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+    }
+  }
+}
+footer {
+  height: 44px;
+  text-align: center;
+  padding: 10px 0;
+}
+.group-footer-contact {
+  background-image: url(../images/background-ft.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 30px 40px;
+  color: #05a048;
+}
+
+.logo {
+  @extend .center;
+  justify-content: flex-start;
+  font-family: "Dancing Script", cursive;
+  font-size: 30px;
+  text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
+    0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2),
+    0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2),
+    0 20px 20px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(to right, #05a03e 0%, #e9e8f1 20%);
+  background-clip: text;
+  color: transparent;
+  font-size: 40px;
+
+  -webkit-animation: slide-right 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-right 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+  p {
+    margin: 0;
+    color: #e9e8f1;
+  }
+}
+
+@keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(-200px);
+    transform: translateX(-200px);
+  }
+  100% {
+    -webkit-transform: translateX(0px);
+    transform: translateX(0px);
+  }
+}
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 150px; /* Độ rộng của bảng menu */
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: none;
+  margin-top: 20px;
+  ul {
+    @extend .center;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  text-align: left;
+}
+
+.menu li {
+  padding: 10px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+
+.header-nav:hover .menu {
+  display: block;
+}
+
+.form-search {
+  @extend .center;
+  height: 100%;
+  width: 70%;
+  input {
+    padding: 5px;
+    border-radius: 5px 0 0 5px;
+    border: 2px solid gray;
+
+    &:focus {
+      border: 2px solid gray;
+      box-shadow: none;
+    }
+    &:focus-visible {
+      outline: none;
+    }
+  }
+  button {
+    padding: 5px;
+    background-color: #31523e;
+    border-radius: 0 5px 5px 0;
+    border: 2px solid gray;
+    border-left: none;
+    color: #e9e8f1;
+    &:active {
+      background-color: #31523e;
+      border: 2px solid gray;
+    }
+  }
+  .btn-header {
+    padding: 5px;
+    margin: 5px 0;
+    background-color: #31523e;
+    border-radius: 0 5px 5px 0;
+    border: 2px solid gray;
+    border-left: none;
+    color: #e9e8f1;
+    &:active {
+      background-color: #31523e;
+      border: 2px solid gray;
+    }
+  }
+}
+.btn-header:hover {
+  background-color: #31523e !important;
+  color: #e9e8f1 !important;
+  opacity: 0.9;
+}
+.header-right {
+  @extend .center;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+  button {
+    padding: 5px 10px;
+    background-color: #31523e;
+    border-radius: 5px;
+    border: 2px solid gray;
+    color: #e9e8f1;
+  }
+  .show-list-right {
+    width: 40vh;
+    padding: 0 20px;
+  }
+}

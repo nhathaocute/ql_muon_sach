@@ -1,0 +1,195 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.container {
+  font-family: "Playfair Display", serif;
+}
+.carosel-custom {
+  height: 70vh;
+}
+.title-product {
+  text-align: center;
+  font-size: 40px;
+  padding: 30px;
+  position: relative;
+  color: #008b28;
+  &::after {
+    @extend .center;
+    position: absolute;
+    content: "";
+    padding-top: 3px;
+    width: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2px;
+    background: radial-gradient(
+      circle,
+      rgb(246, 246, 246) 5%,
+      rgba(16, 112, 8, 1) 80%
+    );
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+.title_slide {
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: bold;
+  background-color: #008b2765;
+  border-radius: 20px;
+}
+.box-product {
+  text-align: center;
+}
+.product-container {
+  position: relative;
+  max-width: 300px;
+  margin: 20px auto;
+  text-align: center;
+  overflow: hidden;
+  display: inline-block;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  transition: transform 0.5s ease; /* Chỉnh thời gian hiệu ứng zoom ra thành 0.5s */
+}
+
+.product-container:hover img {
+  transform: scale(1.2); /* Kích thước tăng lên 20% khi hover vào */
+  filter: brightness(50%); /* Đen dần hình ảnh khi hover vào */
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(
+    -50%,
+    100%
+  ); /* Di chuyển nút button xuống dưới hình ảnh */
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s; /* Chỉnh thời gian hiệu ứng opacity và transform thành 0.5s */
+  animation: move-down 0.5s forwards; /* Sử dụng animation để di chuyển nút button lên giữa hình */
+}
+
+.product-container:hover .overlay {
+  animation: move-up 0.5s forwards; /* Sử dụng animation để di chuyển nút button lên trên hình */
+  opacity: 1;
+}
+
+@keyframes move-up {
+  from {
+    bottom: 0;
+  }
+  to {
+    bottom: 40%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes move-down {
+  from {
+    bottom: 40%;
+    transform: translate(-50%, -50%);
+  }
+  to {
+    bottom: 0;
+  }
+}
+.detail-book {
+  background-color: transparent;
+  color: #0e77e7;
+  font-size: 30px;
+}
+.detail-book:hover {
+  color: #fff;
+}
+
+h2,
+p {
+  margin: 10px 0;
+}
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.fa-heart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #00ff00;
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 100%);
+  transition: background 0.5s;
+}
+
+.btn:hover .fa-heart {
+  background: linear-gradient(to bottom, #ffffff 0%, #00ff00 100%);
+}
+.dieuhuong-product {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .so-trang-sp {
+    color: #fff;
+    background-color: #047e49;
+    border: 1px double #959292;
+    &:hover {
+      color: #047e49;
+      background-color: #fff;
+      cursor: pointer;
+    }
+  }
+}
+.bao_slide {
+  border: #008b28;
+  background-color: #01804945;
+  border-radius: 50%;
+  margin-bottom: 30px;
+}
+.bao-content-libary {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #008b28;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 20px;
+  width: 40%;
+  padding: 30px 25px;
+  font-size: 25px;
+  font-family: "Arial", serif;
+}
+.content-img {
+  position: relative;
+  padding: 30px 20px;
+}
+.content-libary-right {
+  font-family: "Arial", serif;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: repeat;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3CclipPath id=%22a%22%3E%3Cpath fill=%22currentColor%22 d=%22M781 639.5q104 139.5-56 100t-231.5-20q-71.5 19.5-222 38T94.5 638q-26.5-138 48-240.5t176-123.5Q420 253 485 300t187 16.5Q794 286 735.5 393T781 639.5Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg clip-path=%22url(%23a)%22%3E%3Cpath fill=%22%2378d08c%22 d=%22M781 639.5q104 139.5-56 100t-231.5-20q-71.5 19.5-222 38T94.5 638q-26.5-138 48-240.5t176-123.5Q420 253 485 300t187 16.5Q794 286 735.5 393T781 639.5Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
