@@ -1,26 +1,58 @@
 <script>
 import { ref, onMounted } from "vue";
 import router from "~/router";
-import { docGiaAPI } from "~/services/docGia.service";
+import { useAdminStore } from "~/store/adminStore";
+import { useUserStore } from "~/store/userStore";
 export default {
   setup() {
     const DienThoai = ref("");
     const Password = ref("");
     const hide = ref(false);
+    const userStore = useUserStore();
+    const adminStore = useAdminStore();
+    const isUser = ref(window.location.href.indexOf("admin") === -1);
     const toggle = async () => {
       hide.value = !hide.value;
     };
     const hamlogin = async () => {
       try {
         console.log(DienThoai, Password);
-        const res = await docGiaAPI.login({
-          DienThoai: DienThoai.value,
-          Password: Password.value,
-        });
-        alert(res.message);
-        router.push("/");
+        const sdt = DienThoai.value;
+        const matkhau = Password.value;
+        if (isUser.value) {
+          await loginUser(matkhau, sdt);
+        } else {
+          await loginAdmin(matkhau, sdt);
+        }
       } catch (e) {
         alert("tên tài khoản hoặc mật khẩu không chính xác");
+      }
+    };
+    const loginUser = async (pass, phone) => {
+      try {
+        await userStore.login(pass, phone);
+
+        if (userStore.user?._id) {
+          router.push("/");
+        } else {
+          alert("Đăng nhập thất bại!");
+        }
+      } catch (err) {
+        alert("Đăng nhập thất bại!");
+      }
+    };
+
+    const loginAdmin = async (pass, phone) => {
+      try {
+        await adminStore.login(pass, phone);
+
+        if (adminStore.admin) {
+          router.push("/admin");
+        } else {
+          alert("Đăng nhập thất bại!");
+        }
+      } catch (err) {
+        alert("Đăng nhập thất bại!");
       }
     };
     return {

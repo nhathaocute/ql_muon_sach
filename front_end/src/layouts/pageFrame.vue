@@ -1,14 +1,16 @@
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import router from "~/router";
-import { sachAPI } from "~/services/Sach.service";
 import { nhaXuatBanAPI } from "~/services/nhaXuatBan.service";
 import { loaiSachAPI } from "~/services/loaiSach.service";
 import CommonUtils from "~/utils/img";
+import { useUserStore } from "~/store/userStore";
 
 export default {
   setup() {
     const types = ref([]);
+    const userStore = useUserStore();
+    const userId = ref("");
 
     const getTypes = async () => {
       try {
@@ -23,10 +25,19 @@ export default {
 
     onMounted(async () => {
       await getTypes();
+      if (userStore.user?._id) {
+        userId.value = userStore.user?._id;
+      }
     });
+
+    const validMADG = computed(() => userId.value && userId.value.length > 0);
+    const idx = computed(() => userId.value);
 
     return {
       types,
+      userId,
+      validMADG,
+      idx,
     };
   },
 };
@@ -53,8 +64,26 @@ export default {
         </div>
         <div class="col-md-4">
           <div class="header-right">
-            <button class="btn btn-primary btn-header">Đăng Nhập</button>
-            <button class="btn btn-primary btn-header">Đăng Ký</button>
+            <router-link
+              to="/login"
+              class="btn btn-primary btn-header"
+              v-if="!validMADG"
+              >Đăng Nhập</router-link
+            >
+            <router-link
+              to="/register"
+              class="btn btn-primary btn-header"
+              v-if="!validMADG"
+              >Đăng Ký</router-link
+            >
+
+            <router-link
+              :to="'/user?id=' + idx"
+              class="btn btn-primary btn-header"
+              v-if="validMADG"
+              ><i class="fa-solid fa-user"></i
+            ></router-link>
+
             <button
               class="btn btn-header"
               type="button"
@@ -83,12 +112,19 @@ export default {
               <div class="offcanvas-body">
                 <ul style="list-style-type: none">
                   <li class="header-nav">
-                    <p class="d-inline-flex gap-1 text-nav">Trang chủ</p>
+                    <router-link
+                      to="/"
+                      class="d-inline-flex gap-1 text-nav text-decoration-none"
+                      >Trang chủ</router-link
+                    >
                   </li>
                   <li class="header-nav">
-                    <p class="d-inline-flex gap-1 text-nav">
-                      Thông tin thư viện
-                    </p>
+                    <router-link
+                      to="/libary"
+                      class="d-inline-flex gap-1 text-nav text-decoration-none"
+                      >Thông tin thư viện</router-link
+                    >
+                    <p class="d-inline-flex gap-1 text-nav"></p>
                   </li>
                   <li class="header-nav">
                     <p
@@ -119,7 +155,11 @@ export default {
                   </li>
 
                   <li class="header-nav">
-                    <p class="d-inline-flex gap-1 text-nav">Liên hệ</p>
+                    <router-link
+                      to="/contact"
+                      class="d-inline-flex gap-1 text-nav text-decoration-none"
+                      >Liên hệ</router-link
+                    >
                   </li>
                 </ul>
               </div>

@@ -3,14 +3,42 @@ export default {
   data() {
     return {
       navItems: [
-        { label: "Sách", icon: "fa-solid fa-book" },
-        { label: "Thể loại", icon: "fa-solid fa-table-list" },
-        { label: "Phiếu mượn", icon: "fa-solid fa-receipt" },
-        { label: "Phiếu mượn chờ", icon: "fa-solid fa-spinner" },
-        { label: "Đã duyệt phiếu", icon: "fa-solid fa-check" },
-        { label: "Nhân viên", icon: "fa-regular fa-address-book" },
-        { label: "Nhà xuất bản", icon: "fa-solid fa-building" },
-        { label: "Đăng xuất", icon: "fa-solid fa-right-from-bracket" },
+        { link: "/admin", label: "Sách", icon: "fa-solid fa-book" },
+        {
+          link: "/admintype",
+          label: "Thể loại",
+          icon: "fa-solid fa-table-list",
+        },
+        {
+          link: "/adminphieu",
+          label: "Phiếu mượn",
+          icon: "fa-solid fa-receipt",
+        },
+        {
+          link: "/adminphieucho",
+          label: "Phiếu mượn chờ",
+          icon: "fa-solid fa-spinner",
+        },
+        {
+          link: "/adminphieudaduyet",
+          label: "Đã duyệt phiếu",
+          icon: "fa-solid fa-check",
+        },
+        {
+          link: "/adminnv",
+          label: "Nhân viên",
+          icon: "fa-regular fa-address-book",
+        },
+        {
+          link: "/adminnxb",
+          label: "Nhà xuất bản",
+          icon: "fa-solid fa-building",
+        },
+        {
+          link: "/",
+          label: "Đăng xuất",
+          icon: "fa-solid fa-right-from-bracket",
+        },
       ],
       activeIndex: 0,
     };
@@ -34,8 +62,10 @@ export default {
             :class="{ 'item-nav-admin': true, active: activeIndex === index }"
             @click="toggleActive(index)"
           >
-            <i :class="item.icon"></i>
-            <p>{{ item.label }}</p>
+            <router-link :to="item.link" class="item-nav-admin">
+              <i :class="item.icon"></i>
+              <p>{{ item.label }}</p>
+            </router-link>
           </div>
         </nav>
       </div>

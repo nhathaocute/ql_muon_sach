@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
+const { buffer } = require("stream/consumers");
 
 const SachSchema = new mongoose.Schema(
   {
     TenSach: { type: String, required: true, unique: true },
-    HinhAnh: { type: String, maxlength: 16 * 1024 * 1024, default: null },
+    HinhAnh: { type: String, default: null },
     DonGia: { type: Number, required: true },
     SoQuyen: { type: Number, required: true, default: 1 },
     NamXuatBan: { type: String, required: true },

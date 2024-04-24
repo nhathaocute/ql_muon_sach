@@ -155,11 +155,13 @@ export default {
       >
         <div class="box-product">
           <div class="product-container">
-            <img src="../../assets/images/a-doctor.jpg" alt="" />
+            <img :src="`/src/assets/images/${item.HinhAnh}`" alt="" />
             <div class="overlay">
-              <button class="btn detail-book">
-                <i class="fa-solid fa-ellipsis"></i>
-              </button>
+              <router-link
+                :to="'/detail?id=' + item._id"
+                class="btn detail-book text-decoration-none"
+                ><i class="fa-solid fa-ellipsis"></i
+              ></router-link>
             </div>
           </div>
           <h2>{{ item.TenSach }}</h2>
@@ -209,11 +211,13 @@ export default {
           <swiper-slide v-if="data" v-for="item in data" :key="item._id"
             ><div class="box-product">
               <div class="product-container">
-                <img src="../../assets/images/a-doctor.jpg" alt="" />
+                <img :src="`/src/assets/images/${item.HinhAnh}`" alt="" />
                 <div class="overlay">
-                  <button class="btn detail-book">
-                    <i class="fa-solid fa-ellipsis"></i>
-                  </button>
+                  <router-link
+                    :to="'/detail?id=' + item._id"
+                    class="btn detail-book text-decoration-none"
+                    ><i class="fa-solid fa-ellipsis"></i
+                  ></router-link>
                 </div>
               </div>
               <h2>{{ item.TenSach }}</h2>

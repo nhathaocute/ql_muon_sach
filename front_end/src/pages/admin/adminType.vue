@@ -5,17 +5,34 @@ import { loaiSachAPI } from "~/services/loaiSach.service";
 export default {
   setup() {
     const TenLoai = ref("");
+    const uTenLoai = ref("");
+    const info = ref({});
+    const idbook = ref("");
+
     const handlecreatetype = async () => {
       try {
         const res = await loaiSachAPI.create({
           TenLoai: TenLoai.value,
         });
         alert(res.message);
-        router.push("/admintype");
+        await getData();
       } catch (e) {
         alert("that bai");
       }
     };
+
+    const handleupdate = async () => {
+      try {
+        const res = await loaiSachAPI.update(idbook.value, {
+          TenLoai: uTenLoai.value,
+        });
+        alert(res.message);
+        await getData();
+      } catch (e) {
+        alert("that bai");
+      }
+    };
+
     const data = ref([]);
     const getData = async () => {
       try {
@@ -28,13 +45,43 @@ export default {
       }
     };
 
+    const getInfo = async (id) => {
+      try {
+        const res = await loaiSachAPI.getOne(id);
+        if (res.data) {
+          return res.data;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const handleClick = async (id) => {
+      info.value = await getInfo(id);
+      console.log(info.value);
+    };
+
+    const updateClick = async (id) => {
+      idbook.value = id;
+      const hung = await getInfo(id);
+      console.log(hung);
+      if (hung) {
+        uTenLoai.value = hung.TenLoai;
+      }
+    };
+
     onMounted(async () => {
       await getData();
     });
     return {
       TenLoai,
+      uTenLoai,
       handlecreatetype,
       data,
+      handleClick,
+      info,
+      handleupdate,
+      updateClick,
     };
 
     //
@@ -121,8 +168,22 @@ export default {
         </div>
 
         <div class="field-body thaotac col-md-3">
-          <button class="edit"><i class="fa-solid fa-pen-nib"></i></button>
-          <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+          <button
+            class="edit"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            @click="handleClick(item._id)"
+          >
+            <i class="fa-solid fa-eye"></i>
+          </button>
+          <button
+            class="delete"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop1"
+            @click="updateClick(item._id)"
+          >
+            <i class="fa-solid fa-pen-nib"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -149,11 +210,11 @@ export default {
           <div class="modal-body body-view">
             <div class="py-2">
               id:
-              <span>3`12323212`</span>
+              <span>{{ info._id }}</span>
             </div>
             <div class="py-2">
               Tên loại:
-              <span>nha sach van nang</span>
+              <span>{{ info.TenLoai }}</span>
             </div>
           </div>
           <div class="modal-footer">
@@ -167,6 +228,51 @@ export default {
           </div>
         </div>
       </div>
+    </div>
+    <div
+      class="modal fade"
+      id="staticBackdrop1"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <form
+        class="modal-dialog modal-dialog-scrollable"
+        @submit.prevent="handleupdate"
+      >
+        <div class="modal-content form_add">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Sửa loại</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group input_box">
+              <span class="input-group-text input-add" id="basic-addon1"
+                ><i class="fa-solid fa-file-signature"></i
+              ></span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nhập tên sách"
+                v-model="uTenLoai"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn_close" data-bs-dismiss="modal">
+              Đóng
+            </button>
+            <button type="submit" class="btn btn_accept">Sửa</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>

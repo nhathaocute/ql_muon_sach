@@ -14,6 +14,17 @@ const sachControllers = {
       HinhAnh,
     } = req.body;
 
+    console.log(
+      TenSach,
+      DonGia,
+      SoQuyen,
+      NamXuatBan,
+      MaNXB,
+      MaLoai,
+      TacGia,
+      HinhAnh
+    );
+
     // kiem tra cac truong
     if (
       !TenSach ||
@@ -234,7 +245,9 @@ const sachControllers = {
 
     try {
       // tim kiem theo id
-      const sach = await sachModel.findOne({ _id: id }).populate("MaNXB");
+      const sach = await sachModel
+        .findOne({ _id: id })
+        .populate([{ path: "MaNXB" }, { path: "MaLoai" }]);
 
       if (sach) {
         return res.status(200).json({

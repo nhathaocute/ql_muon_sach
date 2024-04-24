@@ -2,7 +2,7 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <h2>Thông tin của ...</h2>
+      <h2>Thông tin của user</h2>
     </div>
   </div>
   <div class="row">

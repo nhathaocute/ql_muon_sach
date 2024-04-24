@@ -100,6 +100,31 @@ const nhanVienControllers = {
       });
     }
   },
+  getAll: async (req, res) => {
+    try {
+      // danh sach nhan vien
+      const DSNhanVien = await nhanVienModel.find({}, "-Password");
+
+      if (DSNhanVien) {
+        return res.status(200).json({
+          errorCode: 0,
+          data: DSNhanVien,
+          message: "Lấy thông tin tát cả nhân viên thành công!",
+        });
+      } else {
+        return res.status(404).json({
+          errorCode: 2,
+          message: "Không thể lấy danh sách nhân viên!",
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        errorCode: 3,
+        message: "Lỗi server!",
+        error: err.message,
+      });
+    }
+  },
 };
 
 module.exports = {

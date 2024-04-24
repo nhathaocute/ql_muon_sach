@@ -17,8 +17,31 @@ import AdminPhieuCho from "~/pages/admin/adminPhieuCho.vue";
 import AdminPhieuDaDuyet from "~/pages/admin/adminPhieuDaDuyet.vue";
 import AdminNV from "~/pages/admin/adminNV.vue";
 import AdminNXB from "~/pages/admin/adminNXB.vue";
+import AdminEdit from "~/pages/admin/adminEdit.vue";
+import AdminEditNV from "~/pages/admin/adminEditNV.vue";
+import AdminEditLoai from "~/pages/admin/adminEditLoai.vue";
+import AdminEditNXB from "~/pages/admin/adminEditNXB.vue";
 import User from "~/pages/user/user.vue";
+import { useAdminStore } from "~/store/adminStore";
+import { useUserStore } from "~/store/userStore";
 
+const requireAdmin = (to, from, next) => {
+  const adminStore = useAdminStore();
+  if (adminStore.isLoggedIn) {
+    next();
+  } else {
+    next({ name: "loginAdmin", params: {} });
+  }
+};
+
+const requireUser = (to, from, next) => {
+  const userStore = useUserStore();
+  if (userStore.isLoggedIn) {
+    next();
+  } else {
+    next({ name: "login", params: {} });
+  }
+};
 const routes = [
   {
     path: "",
@@ -57,8 +80,18 @@ const routes = [
     children: [
       {
         path: "login",
-        name: "login",
-        component: Login,
+        children: [
+          {
+            path: "admin",
+            name: "loginAdmin",
+            component: Login,
+          },
+          {
+            path: "",
+            name: "login",
+            component: Login,
+          },
+        ],
       },
       {
         path: "register",
@@ -70,6 +103,7 @@ const routes = [
   {
     path: "",
     component: adminFrame,
+    beforeEnter: requireAdmin,
     children: [
       {
         path: "admin",
@@ -106,11 +140,32 @@ const routes = [
         name: "adminnxb",
         component: AdminNXB,
       },
+      {
+        path: "adminedit",
+        name: "adminedit",
+        component: AdminEdit,
+      },
+      {
+        path: "admineditnv",
+        name: "admineditnv",
+        component: AdminEditNV,
+      },
+      {
+        path: "admineditloai",
+        name: "admineditloai",
+        component: AdminEditLoai,
+      },
+      {
+        path: "admineditnxb",
+        name: "admineditnxb",
+        component: AdminEditNXB,
+      },
     ],
   },
   {
     path: "",
     component: userFrame,
+    beforeEnter: requireUser,
     children: [
       {
         path: "user",

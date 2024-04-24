@@ -66,7 +66,7 @@ const docGiaControllers = {
         return res.status(201).json({
           errorCode: 0,
           data: {
-            MADOCGIA: docGia.MADOCGIA,
+            _id: docGia._id,
           },
           message: "Đăng nhập thành công!",
         });

@@ -4,7 +4,6 @@ import router from "~/router";
 import { sachAPI } from "~/services/Sach.service";
 import { nhaXuatBanAPI } from "~/services/nhaXuatBan.service";
 import { loaiSachAPI } from "~/services/loaiSach.service";
-import CommonUtils from "~/utils/img";
 
 export default {
   setup() {
@@ -16,64 +15,53 @@ export default {
     const MaLoai = ref("");
     const TacGia = ref("");
     const HinhAnh = ref(null);
+    const uTenSach = ref("");
+    const uDonGia = ref("");
+    const uSoQuyen = ref("");
+    const uNamXuatBan = ref("");
+    const uMaNXB = ref("");
+    const uMaLoai = ref("");
+    const uTacGia = ref("");
+    const uHinhAnh = ref(null);
     const info = ref({});
     const types = ref([]);
     const nxbs = ref([]);
+    const idbook = ref("");
 
-    // const handleCreateType = async () => {
-    //   try {
-    //     console.log("TenSach:", TenSach.value);
-    //     console.log("DonGia:", +DonGia.value);
-    //     console.log("SoQuyen:", +SoQuyen.value);
-    //     console.log("NamXuatBan:", +NamXuatBan.value);
-    //     console.log("MaNXB:", MaNXB.value); // Kiểm tra giá trị của MaNXB
-    //     console.log("MaLoai:", MaLoai.value); // Kiểm tra giá trị của MaLoai
-    //     console.log("TacGia:", TacGia.value);
-    //     console.log("HinhAnh:", HinhAnh.value);
-    //     const formData = new FormData();
-    //     formData.append("TenSach", TenSach.value);
-    //     formData.append("DonGia", +DonGia.value);
-    //     formData.append("SoQuyen", +SoQuyen.value);
-    //     formData.append("NamXuatBan", +NamXuatBan.value);
-    //     formData.append("MaNXB", MaNXB.value);
-    //     formData.append("MaLoai", MaLoai.value);
-    //     formData.append("TacGia", TacGia.value);
-    //     formData.append("HinhAnh", HinhAnh.value);
-
-    //     const res = await sachAPI.create(formData);
-    //     alert(res.message);
-    //     router.push("/admin");
-    //   } catch (e) {
-    //     alert("that bai");
-    //   }
-    // };
-    const handleCreateType = async () => {
+    const handlecreatetype = async () => {
       try {
-        // Kiểm tra xem HinhAnh có giá trị không
-
-        console.log("TenSach:", TenSach.value);
-        console.log("DonGia:", +DonGia.value);
-        console.log("SoQuyen:", +SoQuyen.value);
-        console.log("NamXuatBan:", +NamXuatBan.value);
-        console.log("MaNXB:", MaNXB.value); // Kiểm tra giá trị của MaNXB
-        console.log("MaLoai:", MaLoai.value); // Kiểm tra giá trị của MaLoai
-        console.log("TacGia:", TacGia.value);
-        console.log("HinhAnh:", HinhAnh.value);
-        const formData = new FormData();
-        formData.append("TenSach", TenSach.value);
-        formData.append("DonGia", +DonGia.value);
-        formData.append("SoQuyen", +SoQuyen.value);
-        formData.append("NamXuatBan", +NamXuatBan.value);
-        formData.append("MaNXB", MaNXB.value);
-        formData.append("MaLoai", MaLoai.value);
-        formData.append("TacGia", TacGia.value);
-        formData.append("HinhAnh", HinhAnh.value);
-
-        const res = await sachAPI.create(formData);
+        const res = await sachAPI.create({
+          TenSach: TenSach.value,
+          DonGia: +DonGia.value,
+          SoQuyen: +SoQuyen.value,
+          NamXuatBan: +NamXuatBan.value,
+          MaNXB: MaNXB.value,
+          MaLoai: MaLoai.value,
+          TacGia: TacGia.value,
+          HinhAnh: HinhAnh.value,
+        });
         alert(res.message);
-        router.push("/admin");
+        await getData();
       } catch (e) {
-        alert("Thất bại");
+        alert("that bai");
+      }
+    };
+    const handleupdate = async () => {
+      try {
+        const res = await sachAPI.update(idbook.value, {
+          TenSach: uTenSach.value,
+          DonGia: +uDonGia.value,
+          SoQuyen: +uSoQuyen.value,
+          NamXuatBan: +uNamXuatBan.value,
+          MaNXB: uMaNXB.value,
+          MaLoai: uMaLoai.value,
+          TacGia: uTacGia.value,
+          HinhAnh: uHinhAnh.value,
+        });
+        alert(res.message);
+        await getData();
+      } catch (e) {
+        alert("that bai");
       }
     };
 
@@ -105,6 +93,21 @@ export default {
       info.value = await getInfo(id);
     };
 
+    const updateClick = async (id) => {
+      idbook.value = id;
+      const hung = await getInfo(id);
+      console.log(hung);
+      if (hung) {
+        uTenSach.value = hung.TenSach;
+        uDonGia.value = hung.DonGia;
+        uSoQuyen.value = hung.SoQuyen;
+        uNamXuatBan.value = hung.NamXuatBan;
+        uMaNXB.value = hung.MaNXB._id;
+        uMaLoai.value = hung.MaLoai._id;
+        uTacGia.value = hung.TacGia;
+        uHinhAnh.value = hung.HinhAnh;
+      }
+    };
     const getTypes = async () => {
       try {
         const res = await loaiSachAPI.getAll();
@@ -127,13 +130,6 @@ export default {
       }
     };
 
-    const handleFileChange = async (e) => {
-      const file = e.target.files[0];
-      const base64 = await CommonUtils.getBase64(file);
-      bookNew.value.HinhAnh = base64;
-      previewAvatarUrl.value = URL.createObjectURL(file);
-    };
-
     onMounted(async () => {
       await getData();
       await getNxbs();
@@ -149,13 +145,22 @@ export default {
       MaLoai,
       TacGia,
       HinhAnh,
-      handleCreateType,
+      uTenSach,
+      uDonGia,
+      uSoQuyen,
+      uNamXuatBan,
+      uMaNXB,
+      uMaLoai,
+      uTacGia,
+      uHinhAnh,
+      handlecreatetype,
       data,
       handleClick,
       info,
       types,
       nxbs,
-      handleFileChange,
+      handleupdate,
+      updateClick,
     };
   },
 };
@@ -180,7 +185,7 @@ export default {
   >
     <form
       class="modal-dialog modal-dialog-scrollable"
-      @submit.prevent="handleCreateType"
+      @submit.prevent="handlecreatetype"
     >
       <div class="modal-content form_add">
         <div class="modal-header">
@@ -203,13 +208,7 @@ export default {
               placeholder="Nhập tên sách"
               v-model="TenSach"
             />
-            <!-- <button
-              class="btn btn-outline-secondaryn input-add"
-              type="button"
-              data-bs-toggle="dropdown"
-            >
-              Chọn loại<i class="fa-solid fa-sort-down ml-2"></i>
-            </button> -->
+
             <select id="types" v-if="types" v-model="MaLoai">
               <option :value="el._id" v-for="el in types">
                 {{ el.TenLoai }}
@@ -224,23 +223,7 @@ export default {
               placeholder="Nhập tên tác giả"
               v-model="TacGia"
             />
-            <!-- <button
-              class="btn btn-outline-secondaryn input-add"
-              type="button"
-              data-bs-toggle="dropdown"
-            >
-              Chọn nhà xuất bản<i class="fa-solid fa-sort-down ml-2"></i>
-            </button> -->
-            <!-- <select
-              class="dropdown-menu dropdown-menu-end"
-              v-if="nxbs"
-              v-for="item in nxbs"
-              :key="item._id"
-            >
-              <option>
-                <button class="dropdown-item">{{ item.TenNXB }}</button>
-              </option>
-            </select> -->
+
             <select id="nxbs" v-if="nxbs" v-model="MaNXB">
               <option :value="el._id" v-for="el in nxbs">
                 {{ el.TenNXB }}
@@ -253,10 +236,10 @@ export default {
                 ><i class="fa-solid fa-image"></i
               ></span>
               <input
-                type="file"
+                type="text"
                 class="form-control"
                 placeholder="Hình ảnh"
-                @change="handleFileChange"
+                v-model="HinhAnh"
               />
             </div>
             <div class="input-group input_box">
@@ -324,8 +307,6 @@ export default {
   <div class="row">
     <div
       class="t-body-product"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
       data-toggle="tooltip"
       title="
       id: 3`12323212`
@@ -339,7 +320,6 @@ export default {
       v-if="data"
       v-for="item in data"
       :key="item._id"
-      @click="handleClick(item._id)"
     >
       <div class="t-body d-flex">
         <div class="field-body col-md-1">
@@ -351,15 +331,15 @@ export default {
         <div class="field-body col-md-1">
           <img
             class="img-product"
-            src="../../assets/images/a-doctor.jpg"
+            :src="`/src/assets/images/${item.HinhAnh}`"
             alt=""
           />
         </div>
         <div class="field-body col-md-1">
-          <p>{{ item.HinhAnh }}</p>
+          <p>{{ item.DonGia }}</p>
         </div>
         <div class="field-body col-md-2">
-          <p>{{ item.DonGia }}</p>
+          <p>{{ item.TacGia }}</p>
         </div>
         <div class="field-body col-md-1">
           <p>{{ item.MaLoai?.TenLoai }}</p>
@@ -374,8 +354,22 @@ export default {
           <p>{{ item.SoQuyen }}</p>
         </div>
         <div class="field-body thaotac col-md-1">
-          <button class="edit"><i class="fa-solid fa-pen-nib"></i></button>
-          <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+          <button
+            class="edit"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            @click="handleClick(item._id)"
+          >
+            <i class="fa-solid fa-eye"></i>
+          </button>
+          <button
+            class="delete"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop1"
+            @click="updateClick(item._id)"
+          >
+            <i class="fa-solid fa-pen-nib"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -405,7 +399,7 @@ export default {
                 <div class="img-left">
                   <img
                     class="img-product"
-                    src="../../assets/images/a-doctor.jpg"
+                    :src="`/src/assets/images/${info.HinhAnh}`"
                     alt=""
                   />
                 </div>
@@ -429,11 +423,11 @@ export default {
                 </div>
                 <div class="py-2">
                   Nhà xuất bản:
-                  <span>{{ info.TenNXB }}</span>
+                  <span>{{ info.MaNXB?.TenNXB }}</span>
                 </div>
                 <div class="py-2">
                   Loại Sách:
-                  <span>{{ info.TenLoai }}</span>
+                  <span>{{ info.MaLoai?.TenLoai }}</span>
                 </div>
                 <div class="py-2">
                   Năm xuất bản:
@@ -457,6 +451,130 @@ export default {
           </div>
         </div>
       </div>
+    </div>
+    <div
+      class="modal fade"
+      id="staticBackdrop1"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <form
+        class="modal-dialog modal-dialog-scrollable"
+        @submit.prevent="handleupdate"
+      >
+        <div class="modal-content form_add">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Sửa sách</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group input_box">
+              <span class="input-group-text input-add" id="basic-addon1"
+                ><i class="fa-solid fa-file-signature"></i
+              ></span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nhập tên sách"
+                v-model="uTenSach"
+              />
+
+              <select id="types" v-if="types" v-model="uMaLoai">
+                <option
+                  :value="el._id"
+                  v-for="el in types"
+                  :selected="el._id === uMaLoai.value"
+                >
+                  {{ el.TenLoai }}
+                </option>
+              </select>
+            </div>
+
+            <div class="input-group input_box">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nhập tên tác giả"
+                v-model="uTacGia"
+              />
+
+              <select id="nxbs" v-if="nxbs" v-model="uMaNXB">
+                <option
+                  :value="el._id"
+                  v-for="el in nxbs"
+                  :selected="el._id === uMaNXB.value"
+                >
+                  {{ el.TenNXB }}
+                </option>
+              </select>
+            </div>
+            <div class="bao_input_add d-flex">
+              <div class="input-group input_box">
+                <span class="input-group-text input-add" id="addon-wrapping"
+                  ><i class="fa-solid fa-image"></i
+                ></span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Hình ảnh"
+                  v-model="uHinhAnh"
+                />
+              </div>
+              <div class="input-group input_box">
+                <span class="input-group-text input-add" id="addon-wrapping"
+                  ><i class="fa-solid fa-layer-group"></i
+                ></span>
+
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Nhập số lượng"
+                  v-model="uSoQuyen"
+                />
+              </div>
+            </div>
+            <div class="bao_input_add d-flex">
+              <div class="input-group input_box">
+                <span class="input-group-text input-add" id="addon-wrapping"
+                  ><i class="fa-solid fa-dong-sign"></i
+                ></span>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Giá sách"
+                  v-model="uDonGia"
+                />
+              </div>
+
+              <div class="input-group input_box">
+                <span class="input-group-text input-add" id="addon-wrapping"
+                  ><i class="fa-regular fa-calendar-days"></i
+                ></span>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Nhập năm xuất bản"
+                  v-model="uNamXuatBan"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn_close" data-bs-dismiss="modal">
+              Đóng
+            </button>
+            <button type="submit" class="btn btn_accept">Sửa</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>

@@ -136,7 +136,8 @@ table {
   border-spacing: 0;
 }
 
-a {
+a,
+router-link {
   text-decoration: none;
   color: inherit;
 }
